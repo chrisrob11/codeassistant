@@ -40,21 +40,31 @@ This tool is designed to work seamlessly within a **Git-tracked** or **non-Git**
 
 ## **Implementation Checklist**
 
-### **Core Features**
-- [ ] **Session Management**
-  - [ ] `ca new-session "<description>"` - Create and start a new session.
-  - [ ] `ca end-session` - Archive the session for historical reference.
+### Basics
+- [ ] Create stub commands
+- [ ] Add make file so it can build and do other commands
+- [ ] Add new-session and end-session command
+- [ ] code command work
+  - [ ] Initial work to do simple prompt againt one file
+  - [ ] Add ability to do multiple files
+  - [ ] Add dry-run
+  - [ ] Add ability to do a commit at the end and save that info in file
+- [ ] review command work
+  - More TBD
+- [ ] rollback command work
+  - More TBD
+- [ ] Add the summary mode into code command
 
-- [ ] **AI-Powered Code Editing**
-  - [ ] `ca code "<prompt>"` - Run an AI modification on the code.
-  - [ ] `--files file1 file2` - Allow targeting specific files.
-  - [ ] `--per-file` - Apply the prompt to each file separately.
-  - [ ] `--dry-run` - Show AI-generated changes without modifying files.
-  - [ ] `--commit` - Auto-commit changes after AI modification.
+### **File Tracking & Storage**
+- [ ] Implement `.ca_session.json` for tracking prompts, modified files, and steps.
+- [ ] Store **created, modified, and deleted** files for each AI step.
+- [ ] Track Git state (`pre-commit` and `post-commit` hashes).
+
+---
+
+### **Extensions Features**
 
 - [ ] **Code Review & History**
-  - [ ] `ca review` - Show the session progress, including diffs and AI modifications.
-  - [ ] `ca rollback --step N` - Undo a specific AI modification step.
   - [ ] `ca replay-step --step N [--prompt "<new prompt>"] [--files file1 file2]` - Re-run a specific AI step with modifications.
 
 - [ ] **AI-Powered Summaries**
@@ -65,7 +75,6 @@ This tool is designed to work seamlessly within a **Git-tracked** or **non-Git**
 - [ ] **Git Integration**
   - [ ] Detect and track files under Git.
   - [ ] Store pre-change and post-change commit hashes in `.ca_session.json`.
-  - [ ] `ca commit "<message>"` - Commit AI changes with a user-defined message.
   - [ ] `ca rollback --step N` - Restore files to their previous Git state.
 
 - [ ] **Configuration Management**
@@ -80,13 +89,6 @@ This tool is designed to work seamlessly within a **Git-tracked** or **non-Git**
 - [ ] Implement global config defaults (`CA_DEFAULT_MODE`, `CA_STORE_SUMMARY`).
 - [ ] Ensure `--summary`, `--per-file`, and `--batch` behavior is intuitive.
 - [ ] Allow per-command overrides for global config settings.
-
----
-
-### **File Tracking & Storage**
-- [ ] Implement `.ca_session.json` for tracking prompts, modified files, and steps.
-- [ ] Store **created, modified, and deleted** files for each AI step.
-- [ ] Track Git state (`pre-commit` and `post-commit` hashes).
 
 ---
 
