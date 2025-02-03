@@ -24,3 +24,6 @@ go.work.sum
 bin/*
 vendor/*
 node_modules/*
+
+.ca_session.json
+.ca_sessions

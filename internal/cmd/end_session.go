@@ -5,8 +5,9 @@
 package cmd
 
 import (
-	"fmt"
+	"os"
 
+	"github.com/chrisrob11/codeassistant/internal/session"
 	cli "github.com/urfave/cli/v2"
 )
 
@@ -16,8 +17,12 @@ func EndSessionCommand() *cli.Command {
 		Name:  "end-session",
 		Usage: "Archive session to historical storage",
 		Action: func(c *cli.Context) error {
-			fmt.Println("Ending session...")
-			return nil
+			currentDir, err := os.Getwd()
+			if err != nil {
+				return err
+			}
+
+			return session.EndSession(currentDir)
 		},
 	}
 }
