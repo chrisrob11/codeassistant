@@ -6,6 +6,22 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
     "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "bin/linux/amd64/ca",
+            "label": "ca Binary (Linux AMD64)"
+          },
+          {
+            "path": "bin/darwin/amd64/ca",
+            "label": "ca Binary (macOS AMD64)"
+          },
+          {
+            "path": "bin/windows/amd64/ca",
+            "label": "ca (Windows AMD64)"
+          }
+        ]
+      },
     "@semantic-release/git"
   ]
 }
