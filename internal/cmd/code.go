@@ -10,7 +10,7 @@ import (
 	cli "github.com/urfave/cli/v2"
 )
 
-// CodeCommand applies AI modifications to code
+// CodeCommand applies AI modifications to code.
 func CodeCommand() *cli.Command {
 	return &cli.Command{
 		Name:  "code",

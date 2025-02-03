@@ -10,7 +10,7 @@ import (
 	cli "github.com/urfave/cli/v2"
 )
 
-// ReviewCommand shows the session progress and diffs
+// ReviewCommand shows the session progress and diffs.
 func ReviewCommand() *cli.Command {
 	return &cli.Command{
 		Name:  "review",

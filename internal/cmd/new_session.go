@@ -10,7 +10,7 @@ import (
 	cli "github.com/urfave/cli/v2"
 )
 
-// NewSessionCommand initializes a new coding session
+// NewSessionCommand initializes a new coding session.
 func NewSessionCommand() *cli.Command {
 	return &cli.Command{
 		Name:  "new-session",
