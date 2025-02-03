@@ -43,13 +43,7 @@ all: generate lint build ./...
 
 tools:
 	@echo "  >  Installing tools..."
-	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.53.
-
-# devtools are run on dev boxes but not CI
-devtools:
-	@go install github.com/rubenv/sql-migrate/...@latest
-	@go install github.com/go-jet/jet/v2/cmd/jet@latest
-	@go install github.com/jmattheis/goverter/cmd/goverter@latest
+	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.63.4
 
 migrate-up:
 	@echo "  >  Migrating sqlite..."

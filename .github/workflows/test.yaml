@@ -1,0 +1,28 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.23.2'  # Adjust to match the Go version you're using
+
+    - name: Install Go dependencies
+      run: go mod tidy
+
+    - name: Install Tools
+      run: make tools
+
+    - name: Run lint
+      run: make lint
+
+    - name: Run tests
+      run: make test

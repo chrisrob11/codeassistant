@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main  # or your default branch
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.23.2'  # Set your Go version
+    - name: Install dependencies
+      run: go mod tidy
+    - name: Make Build
+      run: make build-all
+        # Setup Node.js for semantic-release
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20.6.1' # Use the Node.js version that semantic-release requires
+
+    # Install semantic-release and plugins if needed
+    - name: Install semantic-release and plugins
+      run: npm install semantic-release @semantic-release/changelog @semantic-release/git
+
+    # Run semantic-release
+    - name: semantic-release
+      run: npx semantic-release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
