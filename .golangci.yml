@@ -1,6 +1,4 @@
 linters-settings:
-  govet:
-    check-shadowing: true
   gofmt:
     simplify: true
   gocyclo:
@@ -21,7 +19,7 @@ linters:
     - gocyclo
     - godot
     - godox
-    - goerr113
+    - err113
     - gofmt
     - gosec
     - gosimple

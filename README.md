@@ -26,7 +26,7 @@ This tool is designed to work seamlessly within a **Git-tracked** or **non-Git**
 
 | Command                                                                        | Description                                      |
 | ------------------------------------------------------------------------------ | ------------------------------------------------ |
-| `ca new-session "<description>"`                                               | Start a new coding session.                      |
+| `ca start-session "<description>"`                                             | Start a new coding session.                      |
 | `ca code "<prompt>" [--files file1 file2] [--per-file] [--dry-run] [--commit]` | Apply AI modifications.                          |
 | `ca review`                                                                    | Show session progress and diffs.                 |
 | `ca commit "<message>"`                                                        | Commit current changes to Git.                   |
@@ -41,9 +41,9 @@ This tool is designed to work seamlessly within a **Git-tracked** or **non-Git**
 ## **Implementation Checklist**
 
 ### Basics
-- [ ] Create stub commands
-- [ ] Add make file so it can build and do other commands
-- [ ] Add new-session and end-session command
+- [X] Create stub commands
+- [X] Add make file so it can build and do other commands
+- [ ] Add start-session and end-session command
 - [ ] code command work
   - [ ] Initial work to do simple prompt againt one file
   - [ ] Add ability to do multiple files
@@ -114,7 +114,7 @@ This tool is designed to work seamlessly within a **Git-tracked** or **non-Git**
 ### **1️⃣ Start a New Session**
 
 ```bash
-ca new-session "Refactoring legacy code"
+ca start-session "Refactoring legacy code"
 ```
 
 - Starts tracking AI modifications in `.ca_session.json`.
@@ -272,7 +272,7 @@ export CA_LLM_TEMPERATURE=0.7
 ### **3️⃣ Start Using It**
 
 ```bash
-ca new-session "Refactoring project"
+ca start-session "Refactoring project"
 ca code "Improve function names" --per-file
 ca review
 ca commit "Refactored functions"
