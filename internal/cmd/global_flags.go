@@ -1,11 +1,12 @@
 // Copyright (c) 2025 - Chris Robinson
 // Licensed under the BSD 3-Clause License.
 // See LICENSE file for details.
+
 package cmd
 
 import cli "github.com/urfave/cli/v2"
 
-// GlobalFlags defines global CLI flags
+// GlobalFlags defines global CLI flags.
 func GlobalFlags() []cli.Flag {
 	return []cli.Flag{
 		&cli.StringFlag{

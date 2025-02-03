@@ -10,7 +10,7 @@ import (
 	cli "github.com/urfave/cli/v2"
 )
 
-// RollbackCommand undoes a specific AI-modified step
+// RollbackCommand undoes a specific AI-modified step.
 func RollbackCommand() *cli.Command {
 	return &cli.Command{
 		Name:  "rollback",
