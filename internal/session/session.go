@@ -152,17 +152,9 @@ func StartSession(startSession *StartSessionRequest) error {
 		Steps:     []Step{},
 	}
 
-	// Convert session to JSON
-	data, err := json.MarshalIndent(session, "", "  ")
+	err = SaveCurrentSession(startSession.Dir, &session)
 	if err != nil {
-		return fmt.Errorf("%w: could not serialize session data", ErrSessionWriteFail)
-	}
-
-	fullSessionFilePath := filepath.Join(startSession.Dir, sessionFileName)
-
-	// Write session to file with secure permissions
-	if err := os.WriteFile(fullSessionFilePath, data, 0600); err != nil {
-		return fmt.Errorf("%w: unable to create session file", ErrSessionWriteFail)
+		return err
 	}
 
 	fmt.Printf("✅ Session started: %s\n", startSession.Name)
@@ -178,17 +170,9 @@ func EndSession(sessionDir string) error {
 		return ErrNoActiveSession
 	}
 
-	// Read the session file
-	// nolint:gosec // Why: session path is not specified by a user but by the system
-	data, err := os.ReadFile(sessionFilePath)
+	session, err := LoadCurrentSession(sessionDir)
 	if err != nil {
-		return fmt.Errorf("%w: unable to read session file", ErrSessionReadFail)
-	}
-
-	// Parse session JSON
-	var session Session
-	if jsonErr := json.Unmarshal(data, &session); jsonErr != nil {
-		return fmt.Errorf("%w: corrupted session data", ErrSessionParseFail)
+		return err
 	}
 
 	// Mark session completion
@@ -227,6 +211,40 @@ func EndSession(sessionDir string) error {
 	}
 
 	fmt.Println("✅ Session ended and archived.")
+
+	return nil
+}
+
+// LoadCurrentSession will load existing session from the current location.
+func LoadCurrentSession(currentSessionDir string) (*Session, error) {
+	sessionFilePath := BuildCurrentSessionFilePath(currentSessionDir)
+
+	// nolint:gosec // Why: not an inclusion as not user specified
+	data, err := os.ReadFile(sessionFilePath)
+	if err != nil {
+		return nil, err
+	}
+
+	var session Session
+
+	err = json.Unmarshal(data, &session)
+
+	return &session, err
+}
+
+// SaveCurrentSession will save session data.
+func SaveCurrentSession(currentSessionDir string, session *Session) error {
+	data, err := json.MarshalIndent(session, "", "  ")
+	if err != nil {
+		return fmt.Errorf("%w: could not serialize session data", ErrSessionWriteFail)
+	}
+
+	sessionFilePath := BuildCurrentSessionFilePath(currentSessionDir)
+
+	// Write session to file with secure permissions
+	if err := os.WriteFile(sessionFilePath, data, 0600); err != nil {
+		return fmt.Errorf("%w: unable to create session file", ErrSessionWriteFail)
+	}
 
 	return nil
 }
