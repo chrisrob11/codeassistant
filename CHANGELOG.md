@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/chrisrob11/codeassistant/compare/v1.0.1...v1.1.0) (2025-02-03)
+
+
+### Features
+
+* complete start session and end session ([#7](https://github.com/chrisrob11/codeassistant/issues/7)) ([b16ecae](https://github.com/chrisrob11/codeassistant/commit/b16ecae6319c4aa73e869fc85395d01a8a1d56aa))
+
 ## [1.0.1](https://github.com/chrisrob11/codeassistant/compare/v1.0.0...v1.0.1) (2025-02-03)
 
 
