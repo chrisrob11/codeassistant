@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/chrisrob11/codeassistant/compare/v1.1.0...v1.1.1) (2025-02-03)
+
+
+### Bug Fixes
+
+* add support to save and load the current session ([#8](https://github.com/chrisrob11/codeassistant/issues/8)) ([6522cef](https://github.com/chrisrob11/codeassistant/commit/6522cef1d8f717c1ad941bffac684f385b2bd1f1))
+
 # [1.1.0](https://github.com/chrisrob11/codeassistant/compare/v1.0.1...v1.1.0) (2025-02-03)
 
 
