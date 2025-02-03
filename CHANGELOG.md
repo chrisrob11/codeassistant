@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/chrisrob11/codeassistant/compare/v1.0.0...v1.0.1) (2025-02-03)
+
+
+### Bug Fixes
+
+* Drop build binaries with release and update readme ([#6](https://github.com/chrisrob11/codeassistant/issues/6)) ([3bf1b5b](https://github.com/chrisrob11/codeassistant/commit/3bf1b5bdcd9a4e65d5233abaff3dacd195e76f80))
+
 # 1.0.0 (2025-02-03)
 
 
