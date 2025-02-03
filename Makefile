@@ -28,7 +28,7 @@ build-all:
 # Run linters using golangci-lint.
 lint:
 	@echo "  >  Linting code..."
-	${GO_ENV_PATH}/bin/golangci-lint --color always run
+	golangci-lint --color always run
 
 test:
 	@echo ">> running tests"

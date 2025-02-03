@@ -1,4 +1,4 @@
-# **Code-Assistant (`ca`) A developer focused AI integration
+# Code-Assistant (`ca`) A developer focused AI integration
 
 ## **Overview**
 
