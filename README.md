@@ -250,14 +250,14 @@ ca code "Optimize SQL queries" --llm-model gpt-4
 ### **1️⃣ Install Code-Assistant**
 
 ```bash
-go install github.com/yourusername/code-assistant@latest
+go install github.com/chrisrob11/codeassistant@latest
 ```
 
 #### **Or Clone & Build**
 
 ```bash
-git clone https://github.com/yourusername/code-assistant.git
-cd code-assistant
+git clone https://github.com/chrisrob11/codeassistant.git
+cd codeassistant
 go build -o ca
 mv ca /usr/local/bin/
 ```
