@@ -40,9 +40,8 @@ var (
 
 // Command represents the command details associated with a step.
 type Command struct {
-	Prompt       string          `json:"prompt"`
-	Flags        map[string]bool `json:"flags"`
-	AppliedFiles []string        `json:"applied_files"`
+	Prompt string   `json:"prompt"`
+	Files  []string `json:"files"`
 }
 
 // FilesDiff represents the differences in files during the step.
@@ -68,7 +67,6 @@ type Git struct {
 // Step represents an individual step within a session.
 type Step struct {
 	ID        int       `json:"id"`
-	Prompt    string    `json:"prompt"`
 	Command   Command   `json:"command"`
 	Timestamp time.Time `json:"timestamp"`
 	FilesDiff FilesDiff `json:"files_diff"`
@@ -81,7 +79,7 @@ type Session struct {
 	Name        string    `json:"name"`
 	CreatedAt   time.Time `json:"created_at"`
 	CompletedAt time.Time `json:"completed_at"`
-	Steps       []Step    `json:"steps"`
+	Steps       []*Step   `json:"steps"`
 }
 
 type StartSessionRequest struct {
@@ -149,7 +147,7 @@ func StartSession(startSession *StartSessionRequest) error {
 		ID:        uuid.New().String(),
 		Name:      startSession.Name,
 		CreatedAt: time.Now(),
-		Steps:     []Step{},
+		Steps:     []*Step{},
 	}
 
 	err = SaveCurrentSession(startSession.Dir, &session)

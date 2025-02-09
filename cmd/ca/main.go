@@ -6,7 +6,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
 
 	"github.com/chrisrob11/codeassistant/internal/cmd"
@@ -30,6 +30,7 @@ func main() {
 
 	err := app.Run(os.Args)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Printf("ERROR: %s", err.Error())
+		os.Exit(1)
 	}
 }

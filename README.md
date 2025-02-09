@@ -43,7 +43,7 @@ This tool is designed to work seamlessly within a **Git-tracked** or **non-Git**
 ### Basics
 - [X] Create stub commands
 - [X] Add make file so it can build and do other commands
-- [ ] Add start-session and end-session command
+- [X] Add start-session and end-session command
 - [ ] code command work
   - [ ] Initial work to do simple prompt againt one file
   - [ ] Add ability to do multiple files
