@@ -10,6 +10,12 @@ import (
 	"github.com/teilomillet/gollm/config"
 )
 
+var (
+	ErrProviderRequired = errors.New("provider is required")
+	ErrModelRequired    = errors.New("model is required")
+	ErrAPITokenRequired = errors.New("api token is required")
+)
+
 // A list of providers that require an API token.
 var providersRequireAPIToken = []string{
 	"openai",
@@ -44,17 +50,21 @@ func (c *LLMConfig) setDefaults() {
 		// Only set defaults once.
 		return
 	}
+
 	c.defaultsSet = true
 
 	if c.MaxTokens == 0 {
 		c.MaxTokens = 200
 	}
+
 	if c.MaxRetries == 0 {
 		c.MaxRetries = 3
 	}
+
 	if c.RetryDelay == 0 {
 		c.RetryDelay = 2 * time.Second
 	}
+
 	if c.LogLevel == 0 {
 		c.LogLevel = gollm.LogLevelInfo
 	}
@@ -65,16 +75,16 @@ func (c *LLMConfig) setDefaults() {
 func (c *LLMConfig) Validate() error {
 	// Provider must be non-empty
 	if c.Provider == "" {
-		return errors.New("provider is required")
+		return ErrProviderRequired
 	}
 
 	// If provider is in providersRequireAPIToken, ensure APIKey is non-empty
 	if slices.Contains(providersRequireAPIToken, c.Provider) && c.APIKey == "" {
-		return fmt.Errorf("provider %q requires an API token, but none was provided", c.Provider)
+		return ErrAPITokenRequired
 	}
 
 	if c.Model == "" {
-		return errors.New("model is required")
+		return ErrModelRequired
 	}
 
 	return nil
@@ -107,13 +117,8 @@ func (c *LLMConfig) BuildLLM() (gollm.LLM, error) {
 
 	// If an Endpoint was provided, we choose which gollm.Option to apply.
 	// For example, Ollama -> gollm.SetOllamaEndpoint, Azure -> gollm.SetAzureOpenAIEndpoint, etc.
-	switch c.Provider {
-	case "ollama":
-		if c.Endpoint != "" {
-			opts = append(opts, gollm.SetOllamaEndpoint(c.Endpoint))
-		}
-	default:
-		// For other providers, ignore or handle as needed
+	if c.Provider == "ollama" && c.Endpoint != "" {
+		opts = append(opts, gollm.SetOllamaEndpoint(c.Endpoint))
 	}
 
 	// 4) Initialize the LLM

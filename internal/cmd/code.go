@@ -8,7 +8,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -84,19 +83,29 @@ func CodeCommand() *cli.Command {
 				absFilePaths = append(absFilePaths, absPath)
 			}
 
-			return executeCodeCommand(currentDir, prompt, absFilePaths, dryRun)
+			llmConfig := NewLLMConfigFromContext(c)
+			if err := llmConfig.Validate(); err != nil {
+				return err
+			}
+
+			llm, err := llmConfig.BuildLLM()
+			if err != nil {
+				return err
+			}
+
+			return executeCodeCommand(llm, currentDir, prompt, absFilePaths, dryRun)
 		},
 	}
 }
 
-func executeCodeCommand(currentDir, prompt string, absFilePaths []string, dryRun bool) error {
+func executeCodeCommand(llm gollm.LLM, currentDir, prompt string, absFilePaths []string, dryRun bool) error {
 	currentSession, err := session.LoadCurrentSession(currentDir)
 	if err != nil {
 		return fmt.Errorf("%w: %v", ErrFailedToLoadSession, err)
 	}
 
 	// Modify code
-	modifications, err := modifyCode(prompt, absFilePaths)
+	modifications, err := modifyCode(llm, prompt, absFilePaths)
 	if err != nil {
 		return fmt.Errorf("%w: %v", ErrAIProcessingFailed, err)
 	}
@@ -144,7 +153,7 @@ func executeCodeCommand(currentDir, prompt string, absFilePaths []string, dryRun
 }
 
 // Function to modify code using AI.
-func modifyCode(prompt string, files []string) (map[string]string, error) {
+func modifyCode(llm gollm.LLM, prompt string, files []string) (map[string]string, error) {
 	modifications := make(map[string]string)
 
 	for _, file := range files {
@@ -155,16 +164,15 @@ func modifyCode(prompt string, files []string) (map[string]string, error) {
 		}
 
 		// Call AI processing (mocking the LLM call)
-		modifiedContent := processWithAI(prompt, string(content))
+		modifiedContent, err := processWithLLM(llm, prompt, string(content))
+		if err != nil {
+			return nil, err
+		}
+
 		modifications[file] = modifiedContent
 	}
 
 	return modifications, nil
-}
-
-// Mock AI processing.
-func processWithAI(prompt, content string) string {
-	return fmt.Sprintf("// AI-modified version of:\n%s\n\n// Prompt: %s", content, prompt)
 }
 
 // Ensure that the file is inside the current working directory.
@@ -183,27 +191,20 @@ func isValidFilePath(currentDir, filePath string) (string, error) {
 	return absFilePath, nil
 }
 
-// Use gollm to process the AI request
-func processWithLLM(llmConfig *LLMConfig, prompt, content string) (string, error) {
-	validationErrs := llmConfig.Validate()
-	if validationErrs != nil {
-		return "", validationErrs
-	}
-
-	llm, err := llmConfig.BuildLLM()
-	if err != nil {
-		return "", err
-	}
-
+// Use gollm to process the AI request.
+func processWithLLM(llm gollm.LLM, prompt, fileContent string) (string, error) {
 	ctx := context.Background()
 
 	// Create a basic prompt
-	promptValue := gollm.NewPrompt("Explain the concept of 'recursion' in programming.")
+	fullPrompt := fmt.Sprintf(
+		"Use the following prompt '%s' to modify the file contents and output the update code: \n%s",
+		prompt, fileContent)
+	promptValue := gollm.NewPrompt(fullPrompt)
 
 	// Generate a response
 	response, err := llm.Generate(ctx, promptValue)
 	if err != nil {
-		log.Fatalf("Failed to generate text: %v", err)
+		return "", err
 	}
 
 	return response, nil
