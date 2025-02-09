@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/chrisrob11/codeassistant/compare/v1.1.1...v1.2.0) (2025-02-09)
+
+
+### Features
+
+* have the code target implemented with whatever llm ([#9](https://github.com/chrisrob11/codeassistant/issues/9)) ([2698034](https://github.com/chrisrob11/codeassistant/commit/269803486458c227c88bdf13817e929e864483f4))
+
 ## [1.1.1](https://github.com/chrisrob11/codeassistant/compare/v1.1.0...v1.1.1) (2025-02-03)
 
 
